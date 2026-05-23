@@ -18,12 +18,12 @@ public class Mensaje {
         this.usuario = "System";
         this.ip = Mensaje.APIPA;
         this.fecha = new GregorianCalendar();
-        this.texto = "Por defecto";
+        this.texto = Mensaje.encripta("POR DEFECTO");
     }//Fin Constructor
     
     public Mensaje(String usuario, String ip, String texto){
         this.usuario = usuario;
-        this.texto = texto;
+        this.texto = Mensaje.encripta(texto.toUpperCase());
     }//Fin Constructor
     
     //Métodos:
@@ -51,11 +51,43 @@ public class Mensaje {
     
     private static boolean esValida(String ip){
         //Entorno:
-        String ipv4;
-        String expReg;
+        boolean esValido;
+        
         //Algoritmo:
-        ipv4 = "(\\d{1,2}|(0|1)\\\\d{2}|2[0-4]\\\\d|25[0-5])";
-        expReg = ipv4+"\\."+ipv4+"\\."+ipv4+"\\."+ipv4;
-        return ip.matches(expReg);
-    }
+        esValido = ip.trim().matches("^(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)$");
+        return esValido;
+    }//Fin Método
+    
+    public static String encripta(String msg){
+        //Entorno:
+        String msgEnc;
+        int n;
+        char caracterActual;
+        //Algoritmo:
+        msgEnc="";
+        msg = Mensaje.reverse(msg);
+        for (n = 0; n < msg.length(); n++){
+            caracterActual = msg.charAt(n);
+            if (caracterActual >= 'A' && caracterActual <= 'Z'){
+                caracterActual = (char)((caracterActual - 'A'+3)%26 +'A');
+            }//Fin Si
+            msgEnc += caracterActual;
+        }//Fin Para
+        return msgEnc;
+    }//Fin Método
+    
+    private static String reverse(String cad){
+        //Entorno:
+        char[] caracteres;
+        String reves;
+        int i;
+        
+        //Algoritmo:
+        reves = "";
+        caracteres = cad.toCharArray();
+        for (i = caracteres.length -1; i >= 0; i--){
+            reves = reves + caracteres[i];
+        }//Fin Para
+        return reves;
+    }//Fin Método
 }
