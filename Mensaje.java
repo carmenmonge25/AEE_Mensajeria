@@ -18,12 +18,23 @@ public class Mensaje {
         this.usuario = "System";
         this.ip = Mensaje.APIPA;
         this.fecha = new GregorianCalendar();
+        //Crearlo en el atributo porque el constructor con parámetros no tiene fecha y si no se pone en atributo la fecha será null
         this.texto = Mensaje.encripta("POR DEFECTO");
     }//Fin Constructor
     
     public Mensaje(String usuario, String ip, String texto){
+        //falta la ip y si no se pone la fecha en el atributo se debería de poner aquí (creo que se debería de poner en el atributo porque la fecha siempre vale lo mismo en los dos constructores)
         this.usuario = usuario;
         this.texto = Mensaje.encripta(texto.toUpperCase());
+        //cuando metamos la ip deberíamos de poner trim aquí y quitarlo de esValida
+        //utilizar el mátodo esValida aquí:
+        /**
+         * if(Mensaje.esValida(ip.trim())){
+         *      this.ip=ip.trim();
+         * }else{
+         *      this.ip=Mensaje.APIPA;
+         * }//Fin Si
+         */
     }//Fin Constructor
     
     //Métodos:
@@ -54,7 +65,11 @@ public class Mensaje {
         boolean esValido;
         
         //Algoritmo:
-        esValido = ip.trim().matches("^(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)$");
+        esValido = ip.trim().matches("^(?:\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(?:\\.(?:\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])){3}$");
+        /**
+         * en el enunciado pone que cada octeto debe tener un valor entre 1 y 254, en ese caso la expresión sería: 
+         * "^(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-4])(?:\\.(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-4])){3}$"
+         */
         return esValido;
     }//Fin Método
     
