@@ -1,4 +1,3 @@
-
 import java.util.GregorianCalendar;
 
 /**
@@ -9,21 +8,19 @@ public class Mensaje {
     //Atributos:
     private static final String APIPA = "169.254.0.1";
     private String usuario;
-    private GregorianCalendar fecha;
+    private GregorianCalendar fecha=new GregorianCalendar();
     private String ip;
     private String texto;
     
     //Constructores:
     public Mensaje(){
         this.usuario = "System";
-        this.fecha=new GregorianCalendar();
         this.ip = Mensaje.APIPA;
         this.texto = Mensaje.encripta("POR DEFECTO");
     }//Fin Constructor
     
     public Mensaje(String usuario, String ip, String texto){
         this.usuario = usuario.trim();
-        this.fecha=new GregorianCalendar();
         if(Mensaje.esValida(ip.trim())){
             this.ip=ip.trim();
         }else{
@@ -103,15 +100,13 @@ public class Mensaje {
     
     private static String reverse(String cad){
         //Entorno:
-        char[] caracteres;
         String reves;
         int i;
         
         //Algoritmo:
         reves = "";
-        caracteres = cad.toCharArray();
-        for (i = caracteres.length -1; i >= 0; i--){
-            reves = reves + caracteres[i];
+        for (i=0;i<cad.length();i++){
+            reves = reves + cad.charAt(i);
         }//Fin Para
         return reves;
     }//Fin Método
