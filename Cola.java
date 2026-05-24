@@ -1,4 +1,5 @@
 
+
 import java.util.LinkedList;
 
 
@@ -12,13 +13,16 @@ public class Cola {
     
     //Constructores:
     public Cola(){
-        tCola=new LinkedList<>();
+        this.tCola=new LinkedList<>();
     }//Fin Constructor
     
     //Métodos:
     public void meterEnCola(Object obj){
         if(obj instanceof Mensaje){
             this.tCola.offer((Mensaje)obj);
+            System.out.println("Mensaje introducido");
+        }else{
+            System.out.println("ERROR: Mensaje no introducido");
         }//Fin Si
     }//Fin Método
     
