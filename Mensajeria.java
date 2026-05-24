@@ -1,13 +1,11 @@
 
-import java.util.LinkedList;
-
 /**
  *
  * @author Antonio Muñoz Herrera / Carmen Monge Montes
  */
 public class Mensajeria {
 
-    public static byte LeerByte() {
+    public static byte leerByte() {
         //Entorno:
         short num;
         //Algoritmo:
@@ -19,7 +17,7 @@ public class Mensajeria {
         return (byte) num;
     }//Fin Función
 
-    public static boolean Continuar() {
+    public static boolean continuar() {
         //Entorno:
         String opcion;
         boolean continuar;
@@ -33,17 +31,35 @@ public class Mensajeria {
             continuar = false;
         } else {
             continuar = true;
-            System.out.println("Sí quieres continuar");
         }//Fin Si
         return continuar;
     }//Fin Función
-
+    
+    public static Mensaje pedirDatosMensaje(){
+        //Entorno:
+        String usuario, ip, texto;
+        //Algoritmo:
+        System.out.println("Introduzca el usuario: ");
+        usuario = Leer.dato();
+        System.out.println("Introduzca su IP en formato IPv4: ");
+        ip = Leer.dato();
+        System.out.println("Introduzca el texto del mensaje: ");
+        texto = Leer.dato();
+        return new Mensaje(usuario, ip, texto);
+    }//Fin Función
+    
+    public static void mostrarMensaje(Mensaje mensaje){
+        System.out.println("Usuario: " + mensaje.getUsuario());
+        System.out.println("Fecha: " + mensaje.getFecha());
+        System.out.println("IP: " + mensaje.getIp());
+        System.out.println("Texto: " + mensaje.getTexto());
+    }//Fin Procedimiento
+    
     public static void main(String[] args) {
         //Entorno:
         short opcion;
-        Mensaje mens;
+        Mensaje mensaje;
         Cola cola;
-        String usuario, ip, texto;
         boolean continuar;
         //Algoritmo:
         cola = new Cola();
@@ -54,40 +70,30 @@ public class Mensajeria {
             System.out.println("3. Recibir Mensaje.");
             System.out.println("4. Salir.");
             System.out.println("OPCION: ");
-            opcion = LeerByte();
-            System.out.println("Has introducido la opción: "+opcion);
+            opcion = leerByte();
+            
             switch (opcion) {
                 case 1:
-                    System.out.println("Hola");
                     cola.meterEnCola(new Mensaje());
-                    System.out.println("Se ha introducido un mensaje instantáneo.");
-                    System.out.println(cola.esColaVacia());
+                    System.out.println("Se ha introducido un mensaje "
+                            + "instantáneo.");
                     break;
                 case 2:
-                    System.out.println("Introduzca el usuario: ");
-                    usuario = Leer.dato();
-                    System.out.println("Introduzca su IP en formato IPv4: ");
-                    ip = Leer.dato();
-                    System.out.println("Introduzca el texto del mensaje: ");
-                    texto = Leer.dato();
-                    cola.meterEnCola(new Mensaje(usuario, ip, texto));
+                    cola.meterEnCola(Mensajeria.pedirDatosMensaje());
+                    System.out.println("Se ha introducido el mensaje "
+                            + "correctamente.");
                     break;
                 case 3:
-                    mens = (Mensaje) cola.sacarDeCola();
-                    System.out.println(mens);
-                    if (!(mens == null)) {
-                        System.out.println("Usuario: " + mens.getUsuario());
-                        System.out.println("Fecha: " + mens.getFecha());
-                        System.out.println("IP: " + mens.getIp());
-                        System.out.println("Texto: " + mens.getTexto());
+                    mensaje = (Mensaje) cola.sacarDeCola();
+                    if (!(mensaje == null)) {
+                        Mensajeria.mostrarMensaje(mensaje);
                     } else {
                         System.out.println("No hay más mensajes.");
                     }//Fin Si
                     break;
                 case 4:
                     if (!cola.esColaVacia()) {
-                        continuar = Mensajeria.Continuar();
-                        System.out.println(continuar);
+                        continuar = Mensajeria.continuar();
                     } else {
                         continuar = false;
                     }//Fin Si
@@ -96,7 +102,8 @@ public class Mensajeria {
                     System.out.println("Esa opción no está en el menú. "
                             + "Vuelva a intentarlo: ");
             }//Fin Según Sea
-        } while (continuar==true || opcion != 4);
+            System.out.println();
+        } while (continuar == true || opcion != 4);
 
     }//Fin Programa
 }
